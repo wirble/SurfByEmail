@@ -79,12 +79,21 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="SpecialUrl1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>SpecialUrl.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="SpecialUrl.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>SpecialUrl1.Designer.cs</LastGenOutput>
     </None>
     <None Include="SurfByEmail_TemporaryKey.pfx" />
   </ItemGroup>

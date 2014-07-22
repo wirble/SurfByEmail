@@ -41,6 +41,8 @@ using OpenPop.Common.Logging;
 using System.IO;
 using OpenPop.Mime.Header;
 using System.Text.RegularExpressions;
+using System.Resources;
+using System.Collections;
 
 
 
@@ -50,7 +52,7 @@ namespace SurfByEmail
     {
         static void Main(string[] args)
         {
-            checkConfigruation();
+            //checkConfigruation();
             Program p = new Program();
             Thread thread = new Thread(p.Run);
             thread.Start();
@@ -86,6 +88,9 @@ namespace SurfByEmail
         {
 
             List<Message> msgs = new List<Message>();
+            
+            Dictionary<String, String> subjectCmd = new Dictionary<string, string>();
+            checkSpecialURL(subjectCmd);
 
             msgs = FetchAndDeleteAllMessages(Properties.Settings.Default.PopServer, Properties.Settings.Default.PopPort, Properties.Settings.Default.PopSSL, Properties.Settings.Default.PopUserEmail, Properties.Settings.Default.PopPassword);
 
@@ -135,6 +140,20 @@ namespace SurfByEmail
             {
                 Console.WriteLine("No new message");
             }
+        }
+        private static List<String> checkSpecialURL(Dictionary<String,String> subject){
+
+            System.Collections.IEnumerator enumerator = SpecialUrl.Default.Properties.GetEnumerator();
+            
+            Dictionary<String, String> spUrl = new Dictionary<String, String>();
+            List<String> url = new List<String>();
+
+            while (enumerator.MoveNext())
+            {
+                spUrl.Add(((System.Configuration.SettingsProperty)enumerator.Current).Name.ToLower().ToString(), ((System.Configuration.SettingsProperty)enumerator.Current).DefaultValue.ToString().ToLower());
+            }
+
+            return url;
         }
         private static void checkConfigruation(){
 
