@@ -112,9 +112,9 @@ namespace SurfByEmail
 
                     Dictionary<String, String> subjectCmds = new Dictionary<string, string>();
 
-                    
 
-                    
+
+                    Console.WriteLine("Message from: " + from.Address.ToString() + " Subject: " + subjectemail);
                     // Only want to download message if:
                     //  - is from whitelist
                     //  - has subject "web"
@@ -122,11 +122,12 @@ namespace SurfByEmail
                     {
                         subjectCmds = parseSubjectLine(subjectemail);
 
-                        List<String> urls = FindURLSInMessage(msgs[i]);
-
+                        List<String> urls = new List<String>();
                         List<String> spurls = checkSpecialURL(subjectCmds);
 
-                        if (spurls.Count > 0)//override the body url if special url was used
+                        if (spurls.Count == 0)
+                            urls = FindURLSInMessage(msgs[i]);
+                        else
                             urls = spurls;
 
                         savedFile = SiteToPDF(urls, RemoveSpecialCharacters(from.MailAddress.Address.ToString()), subjectCmds);
