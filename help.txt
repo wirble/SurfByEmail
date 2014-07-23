@@ -1,0 +1,43 @@
+Other subject line commands
+
+If you don't specify a return file type.  It will default to .html file for the url.
+help - if this is specify this will take first priority.
+text - if this is specify, this will take priority second to help and so on and so forth.
+help>text>image>pdf>links are all valid subject line commands for return types.
+image - will generate a png version of the pdf.
+pdf - will generate non link version of the pdf.
+links - will generate a link version of the pdf.
+
+
+The simplest email is to send a blank subject with a url in the body and the program will generate an html file from the monitored account to the sender's email address.
+Sending an email with the subject, help, will retrieve a text file containing these messages.
+
+
+List of pre-config. key word search.
+Url with 'replaceme', you can add text for the search parameter by using the keyword:texttosearch.
+For Example: You can do a google search by having this in the subject line, g:mygooglesearch, this will return the search result in html.
+If you want to do a stock quote search, quote:MNKD image, this will return a quote page in an image format.
+This will override any url in the body message.  You just need to have these keywords in the subject line.
+
+
+Subject Keyword       Url_returns
+
+stocktwits http://stocktwits.com/symbol/replaceme
+gentertainment https://news.google.com/news/section?pz=1&cf=all&topic=e
+ghealth https://news.google.com/news/section?pz=1&cf=all&topic=m
+gsports https://news.google.com/news/section?pz=1&cf=all&topic=s
+quote http://www.nasdaq.com/symbol/replaceme/real-time
+mwquotes http://www.marketwatch.com/investing/multi?tickers=replaceme
+ercalendar http://www.nasdaq.com/earnings/earnings-calendar.aspx?date= replaceme
+gscitech https://news.google.com/news/section?pz=1&cf=all&topic=t
+gspotlight https://news.google.com/news/section?pz=1&cf=all&topic=ir
+gbusiness https://news.google.com/news/section?pz=1&cf=all&topic=b
+gnews https://news.google.com/news/section?pz=1&cf=all&q=replaceme
+twitter https://twitter.com/hashtag/replaceme
+gmoretopstories https://news.google.com/news/section?pz=1&cf=all&topic=h
+gus https://news.google.com/news/section?pz=1&cf=all&topic=n
+g http://www.google.com/search?q=replaceme
+gworld https://news.google.com/news/section?pz=1&cf=all&topic=w
+gscience https://news.google.com/news/section?pz=1&cf=all&topic=snc
+gtechnology https://news.google.com/news/section?pz=1&cf=all&topic=tc
+gtopstories https://news.google.com/news?pz=1&cf=all&ned=replacemhttps://news.google.com/news?pz=1&cf=all&ned=replaceme

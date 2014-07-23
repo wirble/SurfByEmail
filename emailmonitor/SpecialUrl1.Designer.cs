@@ -25,37 +25,13 @@ namespace SurfByEmail {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://www.nasdaq.com/earnings/earnings-calendar.aspx?date= replaceme")]
-        public string ercalendar {
-            get {
-                return ((string)(this["ercalendar"]));
-            }
-            set {
-                this["ercalendar"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://www.google.com/#q= replaceme")]
-        public string g {
-            get {
-                return ((string)(this["g"]));
-            }
-            set {
-                this["g"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("https://news.google.com/news/section?pz=1&cf=all&topic=b")]
-        public string gBusiness {
+        public string gbusiness {
             get {
-                return ((string)(this["gBusiness"]));
+                return ((string)(this["gbusiness"]));
             }
             set {
-                this["gBusiness"] = value;
+                this["gbusiness"] = value;
             }
         }
         
@@ -110,12 +86,12 @@ namespace SurfByEmail {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("https://news.google.com/news/section?pz=1&cf=all&topic=t")]
-        public string gSciTech {
+        public string gscitech {
             get {
-                return ((string)(this["gSciTech"]));
+                return ((string)(this["gscitech"]));
             }
             set {
-                this["gSciTech"] = value;
+                this["gscitech"] = value;
             }
         }
         
@@ -157,19 +133,6 @@ namespace SurfByEmail {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://news.google.com/news?pz=1&cf=all&ned=replacemhttps://news.google.com/news" +
-            "?pz=1&cf=all&ned=replaceme")]
-        public string gtopstories {
-            get {
-                return ((string)(this["gtopstories"]));
-            }
-            set {
-                this["gtopstories"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("https://news.google.com/news/section?pz=1&cf=all&topic=n")]
         public string gus {
             get {
@@ -189,30 +152,6 @@ namespace SurfByEmail {
             }
             set {
                 this["gworld"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://www.marketwatch.com/investing/multi?tickers= replaceme")]
-        public string mwquotes {
-            get {
-                return ((string)(this["mwquotes"]));
-            }
-            set {
-                this["mwquotes"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://www.nasdaq.com/symbol/ replaceme /real-time")]
-        public string quote {
-            get {
-                return ((string)(this["quote"]));
-            }
-            set {
-                this["quote"] = value;
             }
         }
         
@@ -243,12 +182,73 @@ namespace SurfByEmail {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("https://news.google.com/news/section?pz=1&cf=all&topic=m")]
-        public string gHealth {
+        public string ghealth {
             get {
-                return ((string)(this["gHealth"]));
+                return ((string)(this["ghealth"]));
             }
             set {
-                this["gHealth"] = value;
+                this["ghealth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www.nasdaq.com/earnings/earnings-calendar.aspx?date= replaceme")]
+        public string ercalendar {
+            get {
+                return ((string)(this["ercalendar"]));
+            }
+            set {
+                this["ercalendar"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www.google.com/search?q=replaceme")]
+        public string g {
+            get {
+                return ((string)(this["g"]));
+            }
+            set {
+                this["g"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://news.google.com/news?pz=1&cf=all&ned=replacemhttps://news.google.com/news" +
+            "?pz=1&cf=all&ned=replaceme")]
+        public string gtopstories {
+            get {
+                return ((string)(this["gtopstories"]));
+            }
+            set {
+                this["gtopstories"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www.marketwatch.com/investing/multi?tickers=replaceme")]
+        public string mwquotes {
+            get {
+                return ((string)(this["mwquotes"]));
+            }
+            set {
+                this["mwquotes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www.nasdaq.com/symbol/replaceme/real-time")]
+        public string quote {
+            get {
+                return ((string)(this["quote"]));
+            }
+            set {
+                this["quote"] = value;
             }
         }
     }

@@ -36,11 +36,6 @@ You can specify the accounts username and password as well as the frequency to c
 
 You only need to click on the executable and the program will ask you to enter the account user name and password and it should be all you need to get started.  Other options are in the .config file.
 
-Other features to add:
-1. text only returns
-2. default searches such as google news in different area (top stories, etc...)
-3. weather
-4. stock prices
-5. ...
+
 
 Thanks

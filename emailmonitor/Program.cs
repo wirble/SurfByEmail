@@ -25,24 +25,21 @@
 using System;
 using System.Diagnostics;
 
-using System.Web;
 using System.Threading;
 
-using System.Text;
 using System.Net.Mail;
 using System.Net;
 
 using OpenPop.Mime;
-using OpenPop.Mime.Traverse;
 using Message = OpenPop.Mime.Message;
 using System.Collections.Generic;
 using OpenPop.Pop3;
-using OpenPop.Common.Logging;
 using System.IO;
 using OpenPop.Mime.Header;
 using System.Text.RegularExpressions;
-using System.Resources;
-using System.Collections;
+using HtmlAgilityPack;
+using System.Runtime.Serialization.Formatters.Binary;
+
 
 
 
@@ -52,7 +49,8 @@ namespace SurfByEmail
     {
         static void Main(string[] args)
         {
-            //checkConfigruation();
+            checkConfigruation();
+            writeListofSpecialUrl();
             Program p = new Program();
             Thread thread = new Thread(p.Run);
             thread.Start();
@@ -90,7 +88,12 @@ namespace SurfByEmail
             List<Message> msgs = new List<Message>();
             
             Dictionary<String, String> subjectCmd = new Dictionary<string, string>();
-            checkSpecialURL(subjectCmd);
+            //subjectCmd.Add("g", "whatisthistest");
+            //subjectCmd.Add("links", "yes");
+            //subjectCmd.Add("gTech", "");
+            //subjectCmd.Add("twitter", "trueguy");
+
+            //checkSpecialURL(subjectCmd);
 
             msgs = FetchAndDeleteAllMessages(Properties.Settings.Default.PopServer, Properties.Settings.Default.PopPort, Properties.Settings.Default.PopSSL, Properties.Settings.Default.PopUserEmail, Properties.Settings.Default.PopPassword);
 
@@ -109,15 +112,22 @@ namespace SurfByEmail
 
                     Dictionary<String, String> subjectCmds = new Dictionary<string, string>();
 
-                    subjectCmds = parseSubjectLine(subjectemail);
+                    
 
+                    
                     // Only want to download message if:
                     //  - is from whitelist
                     //  - has subject "web"
                     if (from.HasValidMailAddress && IsInWhiteList(msgs[i].Headers.From.Address))
                     {
+                        subjectCmds = parseSubjectLine(subjectemail);
+
                         List<String> urls = FindURLSInMessage(msgs[i]);
 
+                        List<String> spurls = checkSpecialURL(subjectCmds);
+
+                        if (spurls.Count > 0)//override the body url if special url was used
+                            urls = spurls;
 
                         savedFile = SiteToPDF(urls, RemoveSpecialCharacters(from.MailAddress.Address.ToString()), subjectCmds);
 
@@ -128,7 +138,7 @@ namespace SurfByEmail
                         }
                         else
                         {
-                            Console.WriteLine("no file to email" + savedFile.Count.ToString());
+                            Console.WriteLine("No file to email.  " + savedFile.Count.ToString() + " file was created.");
                         }
 
                     }
@@ -147,16 +157,46 @@ namespace SurfByEmail
             
             Dictionary<String, String> spUrl = new Dictionary<String, String>();
             List<String> url = new List<String>();
-
+            //lets get the configuration file into memory
             while (enumerator.MoveNext())
             {
                 spUrl.Add(((System.Configuration.SettingsProperty)enumerator.Current).Name.ToLower().ToString(), ((System.Configuration.SettingsProperty)enumerator.Current).DefaultValue.ToString().ToLower());
             }
 
-            return url;
+            //match up the subject line to teh configuration file if any
+            //subject cmds or configuration file shouldn't have any name conflict with the app config or will run into issue
+
+            foreach(KeyValuePair<String,String> cmd in subject)
+            {//loop through subject line command from email
+
+                if (spUrl.ContainsKey(cmd.Key.ToString().ToLower()))
+                {//if subject cmd matches the config
+
+                    String tempUrl = spUrl[cmd.Key.ToString().ToLower()];//get the url from config
+                    url.Add(tempUrl.Replace("replaceme", cmd.Value.ToString().ToLower()));//replace url with value from subject if any
+                    //url.Add(tempUrl);//add to url list
+                }
+
+
+            }
+
+
+                return url;
         }
         private static void checkConfigruation(){
 
+            if (!File.Exists("phantomjs.exe"))
+            {
+                Console.WriteLine("You need to have the phantomjs.exe file in the same directory as the executable.");
+                Thread.Sleep(7000);
+                Environment.Exit(0);
+            }
+            if (!File.Exists("wkhtmltopdf.exe"))
+            {
+                Console.WriteLine("You need to have the wkhtmltopdf.exe and .dll file in the same directory as the executable.");
+                Thread.Sleep(7000);
+                Environment.Exit(0);
+            }
             if(Properties.Settings.Default.PopUserEmail=="" ||Properties.Settings.Default.PopPassword == "" ||
                 Properties.Settings.Default.SmtpUserEmail == "" || Properties.Settings.Default.SmtpPassword=="")
             {
@@ -181,13 +221,16 @@ namespace SurfByEmail
                     Console.WriteLine("Please enter email password of the sending account: ");
                     Properties.Settings.Default.SmtpPassword = Console.ReadLine();
                 }
+                Console.Clear();
             }
 
 
         }
         private static Dictionary<String,String> parseSubjectLine(String subjectemail)
-        {
+        {//returns all lower cases
             Dictionary<String, String> subjectCmds = new Dictionary<string, string>();
+            
+
             if (subjectemail != "" && subjectemail!=null)
             {
                 
@@ -201,6 +244,10 @@ namespace SurfByEmail
                         if (cmd.Length > 1)
                         {
                             subjectCmds.Add(cmd[0].ToLower(), cmd[1].ToLower());
+                        }
+                        else if (cmd.Length == 1)
+                        {
+                            subjectCmds.Add(cmd[0].ToLower(), "");
                         }
                     }
                 }
@@ -235,6 +282,7 @@ namespace SurfByEmail
                 Body = body
             })
             {
+
                 for (int i = 0; i < pdfFile.Count; i++)
                 {
                     bool addSuccess = false;
@@ -277,9 +325,61 @@ namespace SurfByEmail
         {
             return (Directory.Exists(name) || File.Exists(name));
         }
-       
+        private static void writeListofSpecialUrl()
+        {
+
+            System.Collections.IEnumerator enumerator = SpecialUrl.Default.Properties.GetEnumerator();
+
+            Dictionary<String, String> spUrl = new Dictionary<String, String>();
+            List<String> url = new List<String>();
+           
+            //lets get the configuration file into memory
+
+            // Save data
+            //System.IO.File.WriteAllText(@"help.txt", urlListing);
+            using (StreamWriter writer = new StreamWriter(@"help.txt", append:false))
+            {
+                writer.WriteLine("Other subject line commands");
+                writer.WriteLine("");
+                writer.WriteLine("If you don't specify a return file type.  It will default to .html file for the url.");
+                writer.WriteLine("help - if this is specify this will take first priority.");
+                writer.WriteLine("text - if this is specify, this will take priority second to help and so on and so forth.");
+                writer.WriteLine("help>text>image>pdf>links are all valid subject line commands for return types.");
+                writer.WriteLine("image - will generate a png version of the pdf.");
+                writer.WriteLine("pdf - will generate non link version of the pdf.");
+                writer.WriteLine("links - will generate a link version of the pdf.");
+                writer.WriteLine("");
+                writer.WriteLine("");
+                writer.WriteLine("The simplest email is to send a blank subject with a url in the body and the program will generate an html file from the monitored account to the sender's email address.");
+                writer.WriteLine("Sending an email with the subject, help, will retrieve a text file containing these messages.");
+                writer.WriteLine("");
+                writer.WriteLine("");
+
+                writer.WriteLine("List of pre-config. key word search.");
+                writer.WriteLine("Url with 'replaceme', you can add text for the search parameter by using the keyword:texttosearch.");
+                writer.WriteLine("For Example: You can do a google search by having this in the subject line, g:mygooglesearch, this will return the search result in html.");
+                writer.WriteLine("If you want to do a stock quote search, quote:MNKD image, this will return a quote page in an image format.");
+                writer.WriteLine("This will override any url in the body message.  You just need to have these keywords in the subject line.");
+                writer.WriteLine("");
+                writer.WriteLine("");
+                writer.WriteLine("Subject Keyword       Url_returns");
+                writer.WriteLine("");
+                while (enumerator.MoveNext())
+                {
+
+                    writer.WriteLine(((System.Configuration.SettingsProperty)enumerator.Current).Name.ToLower().ToString() + " " + ((System.Configuration.SettingsProperty)enumerator.Current).DefaultValue.ToString().ToLower());
+                }
+               
+            }
+            
+        }
         private static List<String> SiteToPDF(List<String> url, String fromFolder, Dictionary<String, String> fileType)
         {
+            string filename = "";
+            string filePath = "";
+            List<String> fileList = new List<String>();
+
+
             //create the directly based on the from address
             if (!Directory.Exists(fromFolder))
             {
@@ -290,30 +390,45 @@ namespace SurfByEmail
                 //delete existing files
                 Array.ForEach(Directory.GetFiles(@fromFolder), File.Delete);
             }
+            //default to html pages
+            String extension = ".html";
 
-            String extension = ".png";
-            if (fileType.ContainsKey("type"))
-            {
-                if (fileType["type"] == "pdf" )
-                {
+            if (fileType.ContainsKey("help"))
+            {//help command in subject will override all others
+                extension = "help";
+                Console.WriteLine("Help requested only.");
+                filePath = "help.txt";
+                fileList.Add(filePath);
+                return fileList;
+            }
+            else if (fileType.ContainsKey("text"))
+            {//priority commands
+                extension = ".txt";
+
+            }
+            else if (fileType.ContainsKey("image"))
+            {//specifying pdf will make it pdf otherwise default to png
+
+                extension = ".png";
+
+            }
+            else if (fileType.ContainsKey("pdf"))
+            {//specifying pdf will make it pdf otherwise default to png
+
                     extension = ".pdf";
-                }
 
             }
             else if (fileType.ContainsKey("links"))
             {
-                if (fileType["links"] == "yes")
-                {
-                    extension = ".pdf";
-                }
+                 extension = ".pdf";
+
             }
 
-            string filename = "";
-            var filePath = "";
-            List<String> fileList = new List<String>();
 
             for (int k = 0; k < url.Count; k++)
             {
+
+                
                 //string serverPath = fromFolder;
                 filename = RemoveSpecialCharacters(url[k]) + extension; //DateTime.Now.ToString("ddMMyyyy_hhmmss.fff") + ".pdf";
                 if (filename.Length > 25)//limit file name to just 25 characters
@@ -321,46 +436,77 @@ namespace SurfByEmail
 
                 filePath = Path.Combine(fromFolder, filename);
 
-                bool executeDefault = true;
-
-                if (fileType.ContainsKey("links"))
+                //html only
+                if (extension == ".html")
                 {
-                    if (fileType["links"] == "yes")
+                    using (WebClient client = new WebClient()) // WebClient class inherits IDisposable
+                    {
+                        Console.WriteLine("Grabbing html: " + url[k]);
+                        client.DownloadFile(url[k], @filePath);
+
+                    }
+                 
+
+                }
+                else if (extension == ".txt")
+                {//text
+                    using (WebClient client = new WebClient()) // WebClient class inherits IDisposable
+                    {
+
+                        Console.WriteLine("Grabbing text only: " + url[k]);
+                        HtmlWeb web = new HtmlWeb();
+                        HtmlDocument doc = web.Load(url[k]);
+                        string page = "";
+
+                        foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//text()[normalize-space(.) != '']"))
+                        {
+                            page+=node.InnerText.Trim();
+                        }
+
+                        File.WriteAllText(@filePath, page);
+                    }
+
+
+                }else{//pdf and images
+                    bool executeDefault = true;
+                    Console.WriteLine("Grabbing pdf or images: " + url[k]);
+                    if (fileType.ContainsKey("links"))
                     {
                         executeDefault = false;
 
                     }
-
-                }
-                if (executeDefault)//without links
-                {
-                    ExecuteCommand("cd " + fromFolder + " & ..\\phantomjs ..\\rasterize.js " + url[k] + " " + filename + " \"A4\"");
-                }
-                else //with links
-                {
-                    ExecuteCommand("cd " + fromFolder + " & ..\\wkhtmltopdf.exe " + url[k] + " " + filename);
-
-                }
-
-                int i = 0;
-                while (!FileOrDirectoryExists(filePath))
-                {
-
-                    Thread.Sleep(800);
-                    Console.WriteLine("Still fetching files. " + filePath);
-                    i++;
-                    if (i > 40)//file doesn't get made fast enough so lets wait until it's done 
+                    if (executeDefault)//without links
                     {
-                        //no file created
-                        filePath = "";
-                        
-                        break;
+                        ExecuteCommand("cd " + fromFolder + " & ..\\phantomjs ..\\rasterize.js " + url[k] + " " + filename + " \"A4\"");
                     }
-                    //do nothing return "";
-                }
-                fileList.Add(filePath);
-            }
+                    else //with links
+                    {
+                        ExecuteCommand("cd " + fromFolder + " & ..\\wkhtmltopdf.exe " + url[k] + " " + filename);
 
+                    }
+
+                    int i = 0;
+                    while (!FileOrDirectoryExists(filePath))
+                    {
+
+                        Thread.Sleep(800);
+                        Console.WriteLine("Still fetching files. " + filePath);
+                        i++;
+                        if (i > 40)//file doesn't get made fast enough so lets wait until it's done 
+                        {
+                            //no file created
+                            filePath = "";
+
+                            break;
+                        }
+                        //do nothing return "";
+                    }
+                }
+
+                if(filePath!="" && filePath != null)
+                    fileList.Add(filePath);
+                
+            }
             return fileList;
         }
         private static void ExecuteCommand(string Command)
@@ -518,24 +664,6 @@ namespace SurfByEmail
             }
         }
 
-        /// <summary>
-        /// Example showing:
-        ///  - how to use UID's (unique ID's) of messages from the POP3 server
-        ///  - how to download messages not seen before
-        ///    (notice that the POP3 protocol cannot see if a message has been read on the server
-        ///     before. Therefore the client need to maintain this state for itself)
-        /// </summary>
-        /// <param name="hostname">Hostname of the server. For example: pop3.live.com</param>
-        /// <param name="port">Host port to connect to. Normally: 110 for plain POP3, 995 for SSL POP3</param>
-        /// <param name="useSsl">Whether or not to use SSL to connect to server</param>
-        /// <param name="username">Username of the user on the server</param>
-        /// <param name="password">Password of the user on the server</param>
-        /// <param name="seenUids">
-        /// List of UID's of all messages seen before.
-        /// New message UID's will be added to the list.
-        /// Consider using a HashSet if you are using >= 3.5 .NET
-        /// </param>
-        /// <returns>A List of new Messages on the server</returns>
 
 
 

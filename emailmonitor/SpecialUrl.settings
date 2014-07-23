@@ -2,13 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SurfByEmail" GeneratedClassName="SpecialUrl">
   <Profiles />
   <Settings>
-    <Setting Name="ercalendar" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://www.nasdaq.com/earnings/earnings-calendar.aspx?date= replaceme</Value>
-    </Setting>
-    <Setting Name="g" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://www.google.com/#q= replaceme</Value>
-    </Setting>
-    <Setting Name="gBusiness" Type="System.String" Scope="User">
+    <Setting Name="gbusiness" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://news.google.com/news/section?pz=1&amp;cf=all&amp;topic=b</Value>
     </Setting>
     <Setting Name="gentertainment" Type="System.String" Scope="User">
@@ -23,7 +17,7 @@
     <Setting Name="gscience" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://news.google.com/news/section?pz=1&amp;cf=all&amp;topic=snc</Value>
     </Setting>
-    <Setting Name="gSciTech" Type="System.String" Scope="User">
+    <Setting Name="gscitech" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://news.google.com/news/section?pz=1&amp;cf=all&amp;topic=t</Value>
     </Setting>
     <Setting Name="gsports" Type="System.String" Scope="User">
@@ -35,20 +29,11 @@
     <Setting Name="gtechnology" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://news.google.com/news/section?pz=1&amp;cf=all&amp;topic=tc</Value>
     </Setting>
-    <Setting Name="gtopstories" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://news.google.com/news?pz=1&amp;cf=all&amp;ned=replacemhttps://news.google.com/news?pz=1&amp;cf=all&amp;ned=replaceme</Value>
-    </Setting>
     <Setting Name="gus" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://news.google.com/news/section?pz=1&amp;cf=all&amp;topic=n</Value>
     </Setting>
     <Setting Name="gworld" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://news.google.com/news/section?pz=1&amp;cf=all&amp;topic=w</Value>
-    </Setting>
-    <Setting Name="mwquotes" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://www.marketwatch.com/investing/multi?tickers= replaceme</Value>
-    </Setting>
-    <Setting Name="quote" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://www.nasdaq.com/symbol/ replaceme /real-time</Value>
     </Setting>
     <Setting Name="stocktwits" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://stocktwits.com/symbol/replaceme</Value>
@@ -56,8 +41,23 @@
     <Setting Name="twitter" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://twitter.com/hashtag/replaceme</Value>
     </Setting>
-    <Setting Name="gHealth" Type="System.String" Scope="User">
+    <Setting Name="ghealth" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://news.google.com/news/section?pz=1&amp;cf=all&amp;topic=m</Value>
+    </Setting>
+    <Setting Name="ercalendar" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://www.nasdaq.com/earnings/earnings-calendar.aspx?date= replaceme</Value>
+    </Setting>
+    <Setting Name="g" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://www.google.com/search?q=replaceme</Value>
+    </Setting>
+    <Setting Name="gtopstories" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://news.google.com/news?pz=1&amp;cf=all&amp;ned=replacemhttps://news.google.com/news?pz=1&amp;cf=all&amp;ned=replaceme</Value>
+    </Setting>
+    <Setting Name="mwquotes" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://www.marketwatch.com/investing/multi?tickers=replaceme</Value>
+    </Setting>
+    <Setting Name="quote" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://www.nasdaq.com/symbol/replaceme/real-time</Value>
     </Setting>
   </Settings>
 </SettingsFile>
