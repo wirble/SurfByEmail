@@ -19,7 +19,7 @@ Subject line has different commands:  [options]
 		To return an html of a google search: Send an email with subject, "g:Selena+Gomez"
 		To return an image of a google search: Send an email with subject, "g:Selena+Gomez image"
 		To return a pdf of a stock quotes search: Send an email with subject, "mwquotes:mnkd,ino,bdsi"
-		To reuturn an html of google U.S. News section: Send an email with subject, "gus"
+		To reutrn an html of google U.S. News section: Send an email with subject, "gus"
 	
 	Without using the shortcuts:
 
