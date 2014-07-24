@@ -1,21 +1,45 @@
-Other subject line commands
+How to use:
 
-If you don't specify a return file type.  It will default to .html file for the url.
-help - if this is specify this will take first priority.
-text - if this is specify, this will take priority second to help and so on and so forth.
-help>text>image>pdf>links are all valid subject line commands for return types.
-image - will generate a png version of the pdf.
-pdf - will generate non link version of the pdf.
-links - will generate a link version of the pdf.
+Send an email to the given email box.
 
+Subject line has different commands:  [options]
+	html (default) no subject line - all links in body will return as html
+	help - will return a list of custom url already defined in .config file
+	text - links will be returned as text only (still needs work)
+	image - links will return as a .png file
+	pdf - links will return a pdf 
+	links - links will return a a pdf with links and table of content
+	
+	If multiple options are specify above, priority is given below.  Only one option is allow at a time.
+		help>text>image>pdf>links
+		
+	Special url - these are predefined url with key words to use in the subject line.  Shortcuts if you will.  This way you just have to use the keywords instead of typing out the full url to lookup.  This is defined in the .config file.  Send a message with the subject "help" will also give you a listing of these shortcuts.
+	
+	Example:
+		To return an html of a google search: Send an email with subject, "g:Selena+Gomez"
+		To return an image of a google search: Send an email with subject, "g:Selena+Gomez image"
+		To return a pdf of a stock quotes search: Send an email with subject, "mwquotes:mnkd,ino,bdsi"
+		To reuturn an html of google U.S. News section: Send an email with subject, "gus"
+	
+	Without using the shortcuts:
 
-The simplest email is to send a blank subject with a url in the body and the program will generate an html file from the monitored account to the sender's email address.
-Sending an email with the subject, help, will retrieve a text file containing these messages.
+	To retrieve a url in html, send an empty subject line with the url in the body of the message:  
 
+		http://cnn.com
+		http://ebates.com
+		So on...
+                  
+	Body of message should only contain one link on each line.
+	
+	To retrieve a url in image or pdf, specify that in the subject line instead of leaving it empty and include a url on each line in the body of the message.
+	
+	That's about it.
 
-List of pre-config. key word search.
+List of pre-configured shortcuts or key word search.
 Url with 'replaceme', you can add text for the search parameter by using the keyword:texttosearch.
-For Example: You can do a google search by having this in the subject line, g:mygooglesearch, this will return the search result in html.
+
+For Example: You can do a google search by having this in the subject line, g:[mygooglesearch], this will return the search result in html.
+
 If you want to do a stock quote search, quote:MNKD image, this will return a quote page in an image format.
 This will override any url in the body message.  You just need to have these keywords in the subject line.
 
@@ -40,4 +64,4 @@ g http://www.google.com/search?q=replaceme
 gworld https://news.google.com/news/section?pz=1&cf=all&topic=w
 gscience https://news.google.com/news/section?pz=1&cf=all&topic=snc
 gtechnology https://news.google.com/news/section?pz=1&cf=all&topic=tc
-gtopstories https://news.google.com/news?pz=1&cf=all&ned=replacemhttps://news.google.com/news?pz=1&cf=all&ned=replaceme
+gtopstories  https://news.google.com/news?pz=1&cf=all&ned=replacemhttps://news.google.com/news?pz=1&cf=all&ned=replaceme
