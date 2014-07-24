@@ -5,7 +5,7 @@ Program by Trieu Nguyen July 2014.
 Use at your own risk.  License under the MIT license.
 
 
-Uses Phantomjs and wkhtmltopdf third party to generate pdf/image.
+Uses Phantomjs, htmlagilitypack and wkhtmltopdf third party to generate pdf/image.
 Uses OpenPop for Pop mail connections.  Codes retrieved from code samples and modified.
 
 A console windows app that monitors a given gmail inbox for new message with url.  The program will fetch the page and convert to pdf or image, then email the file as an attachment to the sender.  This program allows a person without internet connection to surf the web.  For people with tight squeeze at work with internet blocked.  
