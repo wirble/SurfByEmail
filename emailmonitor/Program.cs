@@ -442,8 +442,8 @@ namespace SurfByEmail
                 {
                     using (WebClient client = new WebClient()) // WebClient class inherits IDisposable
                     {
-                        Console.WriteLine("Grabbing html: " + url[k]);
-                        client.DownloadFile(url[k], @filePath);
+                        Console.WriteLine("Grabbing html: " + url[k].Replace("\"",""));
+                        client.DownloadFile(url[k].Replace("\"", ""), @filePath);
 
                     }
                  
