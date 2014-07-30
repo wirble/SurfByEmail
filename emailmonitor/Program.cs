@@ -24,7 +24,7 @@
 
 using System;
 using System.Diagnostics;
-
+using System.Configuration;
 using System.Threading;
 
 using System.Net.Mail;
@@ -186,6 +186,11 @@ namespace SurfByEmail
         }
         private static void checkConfigruation(){
 
+            //String configPath = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoaming).FilePath;
+            //Console.WriteLine("Configuration file location: ");
+            //Console.WriteLine(configPath);
+            //Console.WriteLine("");
+
             if (!File.Exists("phantomjs.exe"))
             {
                 Console.WriteLine("You need to have the phantomjs.exe file in the same directory as the executable.");
@@ -202,10 +207,12 @@ namespace SurfByEmail
                 Properties.Settings.Default.SmtpUserEmail == "" || Properties.Settings.Default.SmtpPassword=="")
             {
                 Console.WriteLine("You need to update the email account username and password.  If you don't want to add this on startup, edit the .config file.");
-                Console.WriteLine("Please enter email address of the monitoring account: ");
+                Console.WriteLine("");
+                Console.WriteLine("Please enter email address or username of the monitoring account: ");
                 Properties.Settings.Default.PopUserEmail = Console.ReadLine();
                 Console.WriteLine("Please enter password of the monitoring account: ");
                 Properties.Settings.Default.PopPassword = Console.ReadLine();
+                Console.WriteLine("");
                 Console.WriteLine("Do you want to use the same account to send the pdf/image? (y/n)");
                 string sameAccount = Console.ReadLine();
 
@@ -217,7 +224,8 @@ namespace SurfByEmail
                 }
                 else
                 {
-                    Console.WriteLine("Please enter email address of the sending account: ");
+                    Console.WriteLine("");
+                    Console.WriteLine("Please enter email address or username of the sending account: ");
                     Properties.Settings.Default.SmtpUserEmail = Console.ReadLine();
                     Console.WriteLine("Please enter email password of the sending account: ");
                     Properties.Settings.Default.SmtpPassword = Console.ReadLine();
@@ -255,7 +263,7 @@ namespace SurfByEmail
             }
             return subjectCmds;
         }
-        public static void SendMail(List<String> pdfFile,String sendAddress)
+        private static void SendMail(List<String> pdfFile,String sendAddress)
         {
             MailAddress fromAddress = new MailAddress(Properties.Settings.Default.SmtpUserEmail, Properties.Settings.Default.SmtpUserEmail);
             MailAddress toAddress = new MailAddress(sendAddress, sendAddress);
@@ -318,7 +326,7 @@ namespace SurfByEmail
 
 
         }
-        public static string RemoveSpecialCharacters(string str)
+        private static string RemoveSpecialCharacters(string str)
         {
             return Regex.Replace(str, "[^a-zA-Z0-9_.]+", "", RegexOptions.Compiled);
         }
@@ -482,7 +490,7 @@ namespace SurfByEmail
                     }
                     else //with links
                     {
-                        ExecuteCommand("cd " + fromFolder + " & ..\\wkhtmltopdf.exe " + url[k] + " " + filename);
+                        ExecuteCommand("cd " + fromFolder + " & ..\\wkhtmltopdf.exe -l -n " + url[k] + " " + filename);
 
                     }
 
