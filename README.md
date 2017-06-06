@@ -1,7 +1,7 @@
 SurfByEmail
 ===========
 
-Program by Trieu Nguyen July 2014.
+July 2014.
 Use at your own risk.  License under the MIT license.
 
 
